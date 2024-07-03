@@ -6,8 +6,8 @@
 trigger_syncs <- function(){
   skiplist <- c("actions", "workflows")
   universes <- setdiff(unique(list_universes()), skiplist)
-  git_clone('https://github.com/r-universe-org/cran-to-git', '/tmp/cran-to-git')
-  git_clone('https://github.com/r-universe/workflows', '/tmp/workflows')
+  git_clone('https://github.com/tempbioc/cran-to-git', '/tmp/cran-to-git')
+  git_clone('https://github.com/tempbioc/workflows', '/tmp/workflows')
   results <- lapply(universes, check_and_trigger)
   names(results) <- universes
   out <- Filter(length, results)
@@ -43,7 +43,7 @@ needs_update <- function(universe){
   if(universe == 'bioc') {
     return(metabioc_recently_updated())
   }
-  retry(git_clone(paste0('https://github.com/r-universe/', universe)))
+  retry(git_clone(paste0('https://github.com/tempbioc/', universe)))
   fullpath <- normalizePath(universe)
   on.exit(unlink(fullpath, recursive = TRUE))
   withr::local_dir(universe)
